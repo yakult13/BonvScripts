@@ -12,14 +12,14 @@
 #############################
 # Variables (Can be changed depends on your preferred values)
 # Script name
-MyScriptName='Bonveio'
+MyScriptName='Freenet Cafe'
 
 # OpenSSH Ports
 SSH_Port1='22'
 SSH_Port2='225'
 
 # Your SSH Banner
-SSH_Banner='https://pastebin.com/raw/LUHJuPmr'
+SSH_Banner='https://github.com/yakult13/parte/raw/main/cafe'
 
 # Dropbear Ports
 Dropbear_Port1='550'
@@ -221,7 +221,7 @@ connect = 127.0.0.1:dropbear_port_c
 [openssh]
 accept = Stunnel_Port2
 connect = 127.0.0.1:openssh_port_c
-MyStunnelC
+MyStunnelC                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 
  # setting stunnel ports
  sed -i "s|Stunnel_Port1|$Stunnel_Port1|g" /etc/stunnel/stunnel.conf
@@ -424,7 +424,7 @@ done
  openssl dhparam -out /etc/openvpn/dh.pem 1024
  
  # Getting some OpenVPN plugins for unix authentication
- wget -qO /etc/openvpn/b.zip 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/openvpn_plugin64'
+ wget -qO /etc/openvpn/b.zip 'https://github.com/yakult13/BonvScripts/raw/master/openvpn_plugin64'
  unzip -qq /etc/openvpn/b.zip -d /etc/openvpn
  rm -f /etc/openvpn/b.zip
  
@@ -454,7 +454,7 @@ fi
  systemctl enable openvpn@server
  
  # Pulling OpenVPN no internet fixer script
- wget -qO /etc/openvpn/openvpn.bash "https://raw.githubusercontent.com/Bonveio/BonvScripts/master/openvpn.bash"
+ wget -qO /etc/openvpn/openvpn.bash "https://github.com/yakult13/BonvScripts/raw/master/openvpn.bash"
  chmod +x /etc/openvpn/openvpn.bash
 }
 
@@ -743,7 +743,7 @@ ln -fs /usr/share/zoneinfo/MyVPS_Time /etc/localtime
 export DEBIAN_FRONTEND=noninteractive
 
 # Allowing ALL TCP ports for our machine (Simple workaround for policy-based VPS)
-iptables -A INPUT -s $(wget -4qO- http://ipinfo.io/ip) -p tcp -m multiport --dport 1:65535 -j ACCEPT
+iptables -A INPUT -s $(curl -s http://ipinfo.io/ip || wget -q http://ipinfo.io/ip) -p tcp -m multiport --dport 1:65535 -j ACCEPT
 
 # Allowing OpenVPN to Forward traffic
 /bin/bash /etc/openvpn/openvpn.bash
@@ -788,7 +788,7 @@ echo -e " Creating Menu scripts.."
 
 cd /usr/local/sbin/
 rm -rf {accounts,base-ports,base-ports-wc,base-script,bench-network,clearcache,connections,create,create_random,create_trial,delete_expired,diagnose,edit_dropbear,edit_openssh,edit_openvpn,edit_ports,edit_squid3,edit_stunnel4,locked_list,menu,options,ram,reboot_sys,reboot_sys_auto,restart_services,server,set_multilogin_autokill,set_multilogin_autokill_lib,show_ports,speedtest,user_delete,user_details,user_details_lib,user_extend,user_list,user_lock,user_unlock}
-wget -q 'https://raw.githubusercontent.com/Bonveio/BonvScripts/master/menu.zip'
+wget -q 'https://github.com/yakult13/BonvScripts/raw/master/menu.zip'
 unzip -qq menu.zip
 rm -f menu.zip
 chmod +x ./*
@@ -876,17 +876,6 @@ fi
  # Some assistance and startup scripts
  ConfStartup
 
- ## DNS maker plugin for SUN users(for vps script usage only)
- wget -qO dnsmaker "https://raw.githubusercontent.com/Bonveio/BonvScripts/master/DNSMaster/debian"
- chmod +x dnsmaker
- ./dnsmaker
- rm -rf dnsmaker
- sed -i "s|http-proxy $IPADDR|http-proxy $(cat /tmp/abonv_mydns)|g" /var/www/openvpn/SunConfig.ovpn
- curl -4sSL "$(cat /tmp/abonv_mydns_domain)" &> /dev/null
- mv /tmp/abonv_mydns /etc/bonveio/my_domain_name
- mv /tmp/abonv_mydns_id /etc/bonveio/my_domain_id
- rm -rf /tmp/abonv*
-
  # VPS Menu script v1.0
  ConfMenu
  
@@ -939,4 +928,3 @@ fi
 
 rm -f DebianVPS-Installer*
 exit 1
-
